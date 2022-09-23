@@ -16,10 +16,9 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import main.java.co.edu.uniandes.dse.parcialejemplo.services;
-import main.java.co.edu.uniandes.dse.parcialejemplo.entities;
-import co.edu.uniandes.dse.bookstore.exceptions.EntityNotFoundException;
-import main.java.co.edu.uniandes.dse.parcialejemplo.services;
+import co.edu.uniandes.dse.parcialejemplo.entities.ArtistaEntity;
+import co.edu.uniandes.dse.parcialejemplo.exceptions.EntityNotFoundException;
+import co.edu.uniandes.dse.parcialejemplo.exceptions.IllegalOperationException;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 
@@ -31,7 +30,7 @@ import uk.co.jemos.podam.api.PodamFactoryImpl;
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
 @Transactional
-@Import(ReviewService.class)
+@Import(ArtistaService.class)
 class ArtistaServiceTest {
 
 	@Autowired
@@ -96,7 +95,7 @@ class ArtistaServiceTest {
 	void testCreateArtistaWithSameName() {
 		assertThrows(IllegalOperationException.class, () -> {
 			ArtistaEntity newEntity = factory.manufacturePojo(ArtistaEntity.class);
-			newEntity.setNombre(artistaList.get(0).getName());
+			newEntity.setNombre(artistaList.get(0).getNombre());
 			artistaService.createArtista(newEntity);
 		});
 	}

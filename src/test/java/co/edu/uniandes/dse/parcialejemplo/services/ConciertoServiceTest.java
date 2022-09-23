@@ -1,4 +1,4 @@
-package test.java.co.edu.uniandes.dse.parcialejemplo.services;
+package co.edu.uniandes.dse.parcialejemplo.services;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -16,10 +16,9 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import main.java.co.edu.uniandes.dse.parcialejemplo.services;
-import main.java.co.edu.uniandes.dse.parcialejemplo.entities;
-import co.edu.uniandes.dse.bookstore.exceptions.EntityNotFoundException;
-import main.java.co.edu.uniandes.dse.parcialejemplo.services;
+import co.edu.uniandes.dse.parcialejemplo.entities.ConciertoEntity;
+import co.edu.uniandes.dse.parcialejemplo.exceptions.EntityNotFoundException;
+import co.edu.uniandes.dse.parcialejemplo.exceptions.IllegalOperationException;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 
@@ -31,7 +30,7 @@ import uk.co.jemos.podam.api.PodamFactoryImpl;
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
 @Transactional
-@Import(ReviewService.class)
+@Import(ConciertoService.class)
 class ConciertoServiceTest {
 
 	@Autowired
@@ -79,7 +78,7 @@ class ConciertoServiceTest {
 	@Test
 	void testCreateConcierto() throws EntityNotFoundException, IllegalOperationException {
 		ConciertoEntity newEntity = factory.manufacturePojo(ConciertoEntity.class);
-		ConciertoEntity result = conciertoService.createArtista(newEntity);
+		ConciertoEntity result = conciertoService.createConcierto(newEntity);
 		assertNotNull(result);
 
 		ConciertoEntity entity = entityManager.find(ConciertoEntity.class, result.getId());
@@ -96,7 +95,7 @@ class ConciertoServiceTest {
 	void testCreateConciertoWithSameName() {
 		assertThrows(IllegalOperationException.class, () -> {
 			ConciertoEntity newEntity = factory.manufacturePojo(ConciertoEntity.class);
-			newEntity.setNombre(conciertoList.get(0).getName());
+			newEntity.setNombre(conciertoList.get(0).getNombre());
 			conciertoService.createConcierto(newEntity);
 		});
 	}
